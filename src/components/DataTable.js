@@ -1,23 +1,30 @@
 import React from 'react'
-import { parseCurrency } from '../common'
+import { parseCurrency, expenseFilter } from '../common'
+import { connect } from 'react-redux'
 
-function DataTable({ listExpense, openAddModal, triggerEditModal }) {
+function DataTable({ listExpense = [], openAddModal, triggerEditModal }) {
   const table =
     (<table>
       <tbody id="data-table">
         <TableContent listExpense={listExpense} />
       </tbody>
     </table>)
-  const errMessage = <p style={{ textAlign: 'center', fontSize: '2rem', marginTop: '2rem' }}>No data now</p>
+  const errMessage = <p
+    style={{
+      textAlign: 'center',
+      fontSize: '2rem',
+      marginTop: '2rem'
+    }}>No data now</p>
 
   return (
     <div className="data-container">
-      {
-        !!listExpense.length
-          ? table
-          : errMessage
-      }
-      <button onClick={openAddModal} className="btn-bottom-right" id="add">+</button>
+      {!!listExpense.length
+        ? table
+        : errMessage}
+      <button
+        onClick={openAddModal}
+        className="btn-bottom-right"
+      >+</button>
     </div>
   )
 
@@ -46,7 +53,6 @@ function DataTable({ listExpense, openAddModal, triggerEditModal }) {
     function objectToTd({ key, value }) {
       const classes = getStyleOfType(value)
       const data = key === 'total' ? parseCurrency(value) : value
-
       return (<td className={classes}>{data}</td>)
     }
 
@@ -77,4 +83,11 @@ function DataTable({ listExpense, openAddModal, triggerEditModal }) {
 }
 
 
-export default DataTable
+const mapStateToProps = (state) => {
+  return { listExpense: expenseFilter(state.listExpense, state.filterState) }
+}
+const mapDispatchToProps = dispatch => {
+
+}
+
+export default connect(mapStateToProps)(DataTable)

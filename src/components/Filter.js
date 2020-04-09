@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { updateFilter } from '../redux/actions/filterState';
 
 function Filter({
   done,
@@ -44,4 +46,10 @@ function Filter({
   )
 }
 
-export default Filter
+const mapStateToProps = state => state.filterState
+
+const mapDispatchToProps = (dispatch) => {
+  return { changeFilterState: checkboxState => dispatch(updateFilter(checkboxState)) }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Filter)

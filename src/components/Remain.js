@@ -1,5 +1,6 @@
 import React from 'react'
-import { parseCurrency } from '../common'
+import { parseCurrency, calcSum, expenseFilter } from '../common'
+import { connect } from 'react-redux'
 
 function Remain({ remain }) {
   return (
@@ -10,4 +11,7 @@ function Remain({ remain }) {
   )
 }
 
-export default Remain
+const mapStateToProps = ({ listExpense, filterState }) => ({
+  remain: calcSum(expenseFilter(listExpense, filterState))
+})
+export default connect(mapStateToProps)(Remain)

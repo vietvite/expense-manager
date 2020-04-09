@@ -1,6 +1,8 @@
 import React from 'react'
 import { isValid, formatDate } from '../common'
 import shortid from 'shortid'
+import { connect } from 'react-redux'
+import { addExpense, editExpense, deleteExpense } from '../redux/actions/expense'
 
 class Modal extends React.Component {
   constructor() {
@@ -26,20 +28,19 @@ class Modal extends React.Component {
   }
 
   textChangeHandler({ target: { name, value } }) {
-    this.setState({
-      [name]: value
-    })
+    this.setState({ [name]: value })
   }
 
   checkboxHandler({ target: { name, checked } }) {
-    this.setState({
-      [name]: checked
-    })
+    this.setState({ [name]: checked })
   }
 
   getEditProps() {
     if (openEditModal(this.props)) {
-      const status = this.props.editState.status === 'done' ? true : false
+      const status =
+        this.props.editState.status === 'done'
+          ? true
+          : false
       return { ...this.props.editState, status }
     }
     return {}
@@ -83,6 +84,8 @@ class Modal extends React.Component {
       newExpense.id = this.state.id
       this.props.editExpense(newExpense)
     }
+
+    this.props.closeModal()
   }
 
   render() {
@@ -121,7 +124,6 @@ class Modal extends React.Component {
               <button type="submit" className="btn btn-bg-primary">Save</button>
               <button onClick={closeModal} className="btn btn-primary">Cancel</button>
               {modal.type === 'edit' && <button onClick={() => {
-                console.log({ id: this.state.id });
                 deleteExpense(this.state.id)
               }} className="btn btn-danger">Delete</button>}
             </div>
@@ -132,4 +134,14 @@ class Modal extends React.Component {
   }
 }
 
-export default Modal
+const mapStateToProps = store => ({})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addExpense: newExpense => dispatch(addExpense(newExpense)),
+    editExpense: edittedExpense => dispatch(editExpense(edittedExpense)),
+    deleteExpense: id => dispatch(deleteExpense(id))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal)
