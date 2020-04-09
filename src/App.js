@@ -4,6 +4,8 @@ import DataTable from './components/DataTable';
 import Remain from './components/Remain';
 import Modal from './components/Modal';
 import { SHOW_EDIT_MODAL, SHOW_ADD_MODAL } from './constants'
+import { fetchListExpense } from './redux/actions/expense';
+import { connect } from 'react-redux';
 
 const listModal = {
   [SHOW_EDIT_MODAL]: { title: 'Edit expense', type: 'edit' },
@@ -26,16 +28,14 @@ class App extends React.Component {
   closeModal() { this.setState({ showingModal: '' }) }
   openAddModal() { this.setState({ showingModal: SHOW_ADD_MODAL }) }
   openEditModal() { this.setState({ showingModal: SHOW_EDIT_MODAL }) }
-
-  // componentDidMount() {
-  //   fetch('./api/expense.json')
-  //     .then(res => res.json())
-  //     .then(listEx => this.setState({ listExpense: listEx }))
-  // }
-
   triggerEditModal(stateToEdit) {
     this.setState({ stateToEdit: stateToEdit })
     this.openEditModal()
+  }
+
+  componentDidMount() {
+    const url = './api/expense.json'
+    this.props.dispatch(fetchListExpense(url))
   }
 
   render() {
@@ -61,4 +61,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default connect()(App)

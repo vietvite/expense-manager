@@ -1,7 +1,8 @@
 import {
   ADD_EXPENSE,
   EDIT_EXPENSE,
-  DELETE_EXPENSE
+  DELETE_EXPENSE,
+  UPDATE_LIST_EXPENSE
 } from "../constants";
 
 const initExpense = [
@@ -39,7 +40,7 @@ const initExpense = [
   }
 ]
 
-export default (state = initExpense, action) => {
+export default (state = [], action) => {
   switch (action.type) {
     case ADD_EXPENSE:
       return [...state, action.payload]
@@ -49,6 +50,8 @@ export default (state = initExpense, action) => {
       )
     case DELETE_EXPENSE:
       return state.filter(expense => expense.id !== action.id)
+    case UPDATE_LIST_EXPENSE:
+      return [...action.payload]
     default:
       return state
   }

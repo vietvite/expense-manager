@@ -86,8 +86,5 @@ function DataTable({ listExpense = [], openAddModal, triggerEditModal }) {
 const mapStateToProps = (state) => {
   return { listExpense: expenseFilter(state.listExpense, state.filterState) }
 }
-const mapDispatchToProps = dispatch => {
-
-}
 
 export default connect(mapStateToProps)(DataTable)
