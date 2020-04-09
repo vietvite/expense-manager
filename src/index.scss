@@ -53,14 +53,15 @@ html {
               margin: 1rem 0rem;
               
               .filter-label {
-                display: flex;
-                flex-grow: 1;
+                width: 30%;
               }
               
               .filter-checkbox {
+                width: 70%;
                 display: flex;
-                flex-grow: 2;
-                justify-content: space-around;
+                label {
+                  width: 50%;
+                }
               }
             }
             
@@ -76,11 +77,19 @@ html {
     
             table {
               width: 100%;
-              line-height: 2rem;
-              th, td {
-                text-align: left;
-                width: 9rem;
-                text-transform: capitalize;
+              line-height: 3rem;
+              border-spacing: 0;
+
+              tr {
+                &:nth-child(even) {
+                  background-color: $light-gray;
+                }
+                th, td {
+                  padding: 0 0 0 2rem;
+                  text-align: left;
+                  width: 9rem;
+                  text-transform: capitalize;
+                }
               }
             }
     
